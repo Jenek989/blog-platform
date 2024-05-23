@@ -1,0 +1,59 @@
+.article {
+  width: 100%;
+  height: 140px;
+  gap: 26px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.articleWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.articleLink {
+  text-decoration: none;
+}
+
+.articleMain {
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+  height: 100%;
+  gap: 4px;
+}
+
+.articleTitle {
+  font-size: 20px;
+  color: #1890ff;
+}
+
+.articleTag {
+  width: 40px;
+  height: 20px;
+}
+
+.articleWrapperInfo {
+  display: flex;
+  gap: 5px;
+}
+
+.articlePersonal {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.articleName {
+  font-size: 18px;
+  line-height: 28px;
+  margin-bottom: -5px;
+}
+
+.articleDate {
+  font-size: 12px;
+  line-height: 22px;
+  color: #bebebe;
+}

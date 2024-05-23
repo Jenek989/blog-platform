@@ -1,0 +1,12 @@
+.articleWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  margin: 26px auto;
+  max-width: 940px;
+  min-width: 855px;
+}
+
+.articlePaginationWrapper {
+  margin: 0 auto;
+}
