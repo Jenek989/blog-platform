@@ -1,29 +1,53 @@
+import { useEffect, useState } from 'react';
 import { Pagination } from 'antd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ArticlePreview from '../../ArticlePreview/ArticlePreview';
+import { fetchArticleList } from '../../../store/articlesSlice';
+import Spinner from '../../Spinner/Spinner';
 
 import classes from './ArticleList.module.scss';
 
 const ArticleList = () => {
-  const { articleList } = useSelector((state) => state.articles);
-  console.log(articleList);
+  const { articleList, articlesCount } = useSelector((state) => state.articles);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchArticleList({ limit: 5, offset: (currentPage - 1) * 5 }));
+  }, [currentPage]);
+
+  const articlesList = articleList.length ? (
+    articleList.map((article) => {
+      return (
+        <li key={article.slug}>
+          <ArticlePreview article={article} />
+        </li>
+      );
+    })
+  ) : (
+    <Spinner />
+  );
+
+  console.log('articleList:', articleList);
+
   return (
-    <div className={classes.articleWrapper}>
-      <ArticlePreview />
-      <ArticlePreview />
-      <ArticlePreview />
-      <div className="articlePaginationWrapper">
+    <ul className={classes.articleWrapper}>
+      {articlesList}
+      <div className={classes.articlePaginationWrapper}>
         <Pagination
-          className="articlePagination"
-          current={1}
-          total={10}
+          className={classes.articlePagination}
+          current={currentPage}
+          total={articlesCount}
           pageSize={5}
           showSizeChanger={false}
-          onChange={() => console.log('change pagination')}
+          onChange={(page) => {
+            setCurrentPage(page);
+          }}
         />
       </div>
-    </div>
+    </ul>
   );
 };
 

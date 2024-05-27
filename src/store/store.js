@@ -1,9 +1,11 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
-import articlesSlice from './articlesSlice';
+import articles from './articlesSlice';
 
 const store = configureStore({
-  reducer: combineReducers({ articles: articlesSlice.reducer }),
+  reducer: combineReducers({ articles: articles.reducer }),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 export default store;
