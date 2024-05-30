@@ -1,44 +1,130 @@
-import { Link } from 'react-router-dom';
-import { Button, Form, Input, Typography } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Button, Checkbox, Form, Input, Typography } from 'antd';
+import { useForm, Controller } from 'react-hook-form';
+
+import { fetchCreateUser } from '../../store/usersSlice';
 
 import classes from './SignUp.module.scss';
 
 const { Text } = Typography;
 
 const SignUp = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = ({ username, email, password }) => {
+    console.log({ username, email, password });
+    dispatch(fetchCreateUser({ username, email, password }));
+    navigate('/');
+  };
+
+  const password = watch('password');
+
   return (
     <div className={classes.signUpWrapper}>
       <Text className={classes.signUpTitle}>Create new account</Text>
-      <Form layout="vertical" name="login" className={classes.signUpForm}>
+      <Form layout="vertical" name="login" onFinish={handleSubmit(onSubmit)} className={classes.signUpForm}>
         <Form.Item
           name="username"
           label="Username"
-          rules={[{ required: true, message: 'Please input your username!' }]}
+          validateStatus={errors.username ? 'error' : ''}
+          help={errors.username && errors.username.message}
           className={classes.signUnUsername}
         >
-          <Input placeholder="Username" className={classes.signUpUpput} />
+          <Controller
+            name="username"
+            control={control}
+            rules={{
+              required: 'Username is reqired',
+              pattern: {
+                value: /^.{3,20}$/,
+                message: 'Username must be between 3 and 20 characters',
+              },
+            }}
+            render={({ field }) => <Input placeholder="Username" className={classes.signUpInput} {...field} />}
+          />
         </Form.Item>
         <Form.Item
           name="email"
           label="Email address"
-          rules={[{ required: true, message: 'Please input your email!' }]}
+          // rules={[{ required: true, message: 'Please input your email!' }]}
+          validateStatus={errors.email ? 'error' : ''}
+          help={errors.email && errors.email.message}
           className={classes.signUpFormItem}
         >
-          <Input type="email" placeholder="Email address" className={classes.signUpInput} />
+          <Controller
+            name="email"
+            control={control}
+            rules={{
+              required: 'Email is reqired',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: 'Invalid email address',
+              },
+            }}
+            render={({ field }) => <Input placeholder="Email adress" className={classes.signUpInput} {...field} />}
+          />
         </Form.Item>
         <Form.Item
           name="password"
           label="Password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          validateStatus={errors.password ? 'error' : ''}
+          help={errors.password && errors.password.message}
         >
-          <Input.Password placeholder="Password" className={classes.signUpInput} />
+          <Controller
+            name="password"
+            control={control}
+            rules={{
+              required: 'Password is reqired',
+              pattern: {
+                value: /^.{6,40}$/,
+                message: 'Your password needs to be at least 6 characters',
+              },
+            }}
+            render={({ field }) => <Input.Password placeholder="Password" className={classes.signUpInput} {...field} />}
+          />
         </Form.Item>
         <Form.Item
           name="repeatPassword"
           label="Repeat Password"
-          rules={[{ required: true, message: 'Please repeaat your password!' }]}
+          validateStatus={errors.repeatPassword ? 'error' : ''}
+          help={errors.repeatPassword && errors.repeatPassword.message}
         >
-          <Input.Password placeholder="Repeat Password" className={classes.signUpInput} />
+          <Controller
+            name="repeatPassword"
+            control={control}
+            rules={{
+              required: 'Repeat Password is reqired',
+              validate: (value) => {
+                return value === password || 'Password must match';
+              },
+            }}
+            render={({ field }) => <Input.Password placeholder="Password" className={classes.signUpInput} {...field} />}
+          />
+        </Form.Item>
+        <Form.Item
+          name="agree"
+          valuePropName="checked"
+          className={classes.signUpCheckbox}
+          validateStatus={errors.agree ? 'error' : ''}
+          help={errors.agree && errors.agree.message}
+        >
+          <Controller
+            name="agree"
+            control={control}
+            rules={{
+              required: 'You should be agree',
+            }}
+            defaultValue={false}
+            render={({ field }) => <Checkbox {...field}>I agree to the processing of my personal information</Checkbox>}
+          />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" className={classes.signUpBtn}>

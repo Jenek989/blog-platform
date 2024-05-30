@@ -1,6 +1,32 @@
 .singlePageWrapper {
-  width: 940px;
-  height: 805px;
+  min-width: 855px;
+  max-width: 940px;
+  min-height: 780px;
   margin: 26px auto;
+  padding-bottom: 16px;
   background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.singlePageWrapperSpin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 855px;
+  max-width: 940px;
+  min-height: 785px;
+  margin: 26px auto;
+  padding-bottom: 16px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.singlePageMarkdown {
+  margin: 0 16px;
+}
+
+.articleDescription {
+  color: #ffffff;
 }

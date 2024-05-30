@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice, isRejectedWithValue } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { getCookie } from '../components/cookie';
+
 export const fetchArticleList = createAsyncThunk('articles/fetchArticleList', async ({ limit, offset }) => {
   try {
     const res = await axios.get('https://blog.kata.academy/api/articles', {
@@ -8,11 +10,11 @@ export const fetchArticleList = createAsyncThunk('articles/fetchArticleList', as
         limit,
         offset,
       },
-      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      headers: { 'Content-Type': 'application/json;charset=utf-8', Authorization: `Token ${getCookie('token')}` },
     });
     return res.data;
   } catch (error) {
-    return isRejectedWithValue(err.response.data);
+    return isRejectedWithValue(error);
   }
 });
 
@@ -21,13 +23,13 @@ export const fetchSinglePage = createAsyncThunk('articles/fetchSinglePage', asyn
     const res = await axios.get(`https://blog.kata.academy/api/articles/${slug}`);
     return res.data;
   } catch (error) {
-    return isRejectedWithValue(err.response.data);
+    return isRejectedWithValue(error);
   }
 });
 
 const initialState = {
   articleList: [],
-  articleSinglePage: {},
+  articleSinglePage: null,
   articlesCount: null,
   loading: false,
   error: false,

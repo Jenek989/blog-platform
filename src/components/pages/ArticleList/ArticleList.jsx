@@ -18,17 +18,20 @@ const ArticleList = () => {
     dispatch(fetchArticleList({ limit: 5, offset: (currentPage - 1) * 5 }));
   }, [currentPage]);
 
-  const articlesList = articleList.length ? (
-    articleList.map((article) => {
-      return (
-        <li key={article.slug}>
-          <ArticlePreview article={article} />
-        </li>
-      );
-    })
-  ) : (
-    <Spinner />
-  );
+  if (!articleList.length)
+    return (
+      <li className={classes.articleSpin}>
+        <Spinner />
+      </li>
+    );
+
+  const articlesList = articleList.map((article) => {
+    return (
+      <li key={article.slug} className={classes.article}>
+        <ArticlePreview article={article} />
+      </li>
+    );
+  });
 
   console.log('articleList:', articleList);
 
