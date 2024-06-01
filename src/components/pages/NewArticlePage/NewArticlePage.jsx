@@ -14,7 +14,7 @@ const NewArticlePage = () => {
     dispatch(fetchCreateArticle(params));
     navigate('/');
   };
-  return <NewArticle title="Create new article" onSubmit={onSubmit} tagList={tagList} setTagList={setTagList} />;
+  return <NewArticle title="Create new article" onSubmit={onSubmit} />;
 };
 
 export default NewArticlePage;
