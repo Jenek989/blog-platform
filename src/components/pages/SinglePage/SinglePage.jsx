@@ -19,8 +19,6 @@ const SinglePage = () => {
     dispatch(fetchSinglePage(slug));
   }, [slug]);
 
-  console.log(articleSinglePage);
-
   if (!articleSinglePage) return null;
   if (loading)
     return (

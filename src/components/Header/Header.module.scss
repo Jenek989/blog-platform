@@ -35,7 +35,46 @@
   color: #000000;
 }
 
+.headerBtnCreate {
+  width: 112px;
+  height: 40px;
+  font-size: 14px;
+  color: #000000;
+}
+
+.headerBtnProfile {
+  color: #000000;
+}
+
+.headerProfileWrapper {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.headerProfileInfo {
+  display: flex;
+  align-items: center;
+}
+
+.headerProfiletext {
+}
+
+.headerName {
+  align-self: center;
+  cursor: pointer;
+}
+
+.headerImage {
+  border-radius: 50%;
+}
+
 .headerBtn:hover {
+  color: #52c41a;
+  border: 1px solid #52c41a;
+}
+
+.headerBtnCreate:hover {
   color: #52c41a;
   border: 1px solid #52c41a;
 }

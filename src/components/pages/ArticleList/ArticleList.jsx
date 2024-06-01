@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Pagination } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ArticlePreview from '../../ArticlePreview/ArticlePreview';
-import { fetchArticleList } from '../../../store/articlesSlice';
+import { setCurrentPage, fetchArticleList } from '../../../store/articlesSlice';
 import Spinner from '../../Spinner/Spinner';
 
 import classes from './ArticleList.module.scss';
 
 const ArticleList = () => {
-  const { articleList, articlesCount } = useSelector((state) => state.articles);
-  const [currentPage, setCurrentPage] = useState(1);
+  const { articleList, articlesCount, currentPage } = useSelector((state) => state.articles);
 
   const dispatch = useDispatch();
 
@@ -33,8 +32,6 @@ const ArticleList = () => {
     );
   });
 
-  console.log('articleList:', articleList);
-
   return (
     <ul className={classes.articleWrapper}>
       {articlesList}
@@ -46,7 +43,7 @@ const ArticleList = () => {
           pageSize={5}
           showSizeChanger={false}
           onChange={(page) => {
-            setCurrentPage(page);
+            dispatch(setCurrentPage(page));
           }}
         />
       </div>

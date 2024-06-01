@@ -19,7 +19,6 @@ const SignIn = () => {
   } = useForm();
 
   const onSubmit = ({ email, password }) => {
-    console.log({ email, password });
     dispatch(fetchLoginUser({ email, password }));
     navigate('/');
   };

@@ -6,3 +6,7 @@ export const getCookie = (name) => {
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 };
+
+export const deleteCookie = (name) => {
+  document.cookie = name + '=; Max-Age=-1; path=/';
+};

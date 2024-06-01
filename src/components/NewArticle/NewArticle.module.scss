@@ -1,0 +1,60 @@
+.newArticleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 938px;
+  min-height: 732px;
+  margin: 60px auto;
+  padding: 36px 38px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.newArticleTitle {
+  margin-bottom: 22px;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+}
+
+.newArticleForm {
+  width: 100%;
+}
+
+.newArticleFormItem {
+  margin-bottom: 12px;
+}
+
+.newArticleInput {
+  height: 40px;
+}
+
+.newArticleBtn {
+  width: 100%;
+  height: 40px;
+}
+
+.newArticleInfo {
+  width: 100%;
+  text-align: center;
+  margin-top: -30px;
+  color: #8c8c8c;
+}
+
+.newArticletag {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 5px;
+}
+
+.newArticleinputTag {
+  width: 300px;
+  height: 40px;
+}
+
+.newArticlebuttonTag {
+  height: 40px;
+}

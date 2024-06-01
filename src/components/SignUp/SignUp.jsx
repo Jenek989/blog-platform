@@ -20,7 +20,6 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = ({ username, email, password }) => {
-    console.log({ username, email, password });
     dispatch(fetchCreateUser({ username, email, password }));
     navigate('/');
   };
