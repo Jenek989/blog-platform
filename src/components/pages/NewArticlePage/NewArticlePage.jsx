@@ -10,7 +10,6 @@ const NewArticlePage = () => {
 
   const onSubmit = ({ title, description, text: body }, tagList) => {
     const params = { title, description, body, tagList };
-    console.log(params);
     dispatch(fetchCreateArticle(params));
     navigate('/');
   };

@@ -13,7 +13,6 @@ const EditArticlePage = () => {
   const singleArticle = useSelector((state) => state.articles.articleSinglePage);
 
   const onSubmit = ({ title, description, text: body }, tagList) => {
-    console.log(slug);
     const params = { body: { title, description, body, tagList }, slug };
     dispatch(fetchUpdateArticle(params));
     navigate('/');

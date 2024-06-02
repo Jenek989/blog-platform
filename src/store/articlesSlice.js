@@ -5,16 +5,10 @@ import { getCookie } from '../components/cookie';
 
 export const fetchArticleList = createAsyncThunk('articles/fetchArticleList', async ({ limit, offset }) => {
   try {
-    const res = await axios.get(
-      'https://blog.kata.academy/api/articles',
-      {
-        params: {
-          limit,
-          offset,
-        },
-      },
-      { headers: { 'Content-Type': 'application/json;charset=utf-8', Authorization: `Token ${getCookie('token')}` } }
-    );
+    const res = await axios.get('https://blog.kata.academy/api/articles', {
+      params: { limit, offset },
+      headers: { 'Content-Type': 'application/json;charset=utf-8', Authorization: `Token ${getCookie('token')}` },
+    });
     return res.data;
   } catch (error) {
     return isRejectedWithValue(error);
@@ -23,7 +17,9 @@ export const fetchArticleList = createAsyncThunk('articles/fetchArticleList', as
 
 export const fetchSinglePage = createAsyncThunk('articles/fetchSinglePage', async (slug) => {
   try {
-    const res = await axios.get(`https://blog.kata.academy/api/articles/${slug}`);
+    const res = await axios.get(`https://blog.kata.academy/api/articles/${slug}`, {
+      headers: { 'Content-Type': 'application/json;charset=utf-8', Authorization: `Token ${getCookie('token')}` },
+    });
     return res.data;
   } catch (error) {
     return isRejectedWithValue(error);
@@ -71,6 +67,32 @@ export const fetchDeleteArticle = createAsyncThunk('articles/fetchDeleteArticle'
   }
 });
 
+export const fetchFavoriteArticle = createAsyncThunk('articles/fetchFavoriteArticle', async (slug) => {
+  try {
+    const res = await axios.post(
+      `https://blog.kata.academy/api/articles/${slug}/favorite`,
+      {},
+      {
+        headers: { 'Content-Type': 'application/json;charset=utf-8', Authorization: `Token ${getCookie('token')}` },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    return isRejectedWithValue(error);
+  }
+});
+
+export const fetchUnfavoriteArticle = createAsyncThunk('articles/fetchUnfavoriteArticle', async (slug) => {
+  try {
+    const res = await axios.delete(`https://blog.kata.academy/api/articles/${slug}/favorite`, {
+      headers: { 'Content-Type': 'application/json;charset=utf-8', Authorization: `Token ${getCookie('token')}` },
+    });
+    return res.data;
+  } catch (error) {
+    return isRejectedWithValue(error);
+  }
+});
+
 const initialState = {
   articleList: [],
   articleSinglePage: null,
@@ -91,6 +113,7 @@ const articlesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchArticleList.pending, (state) => {
+        state.articleList = [];
         state.loading = true;
       })
       .addCase(fetchArticleList.fulfilled, (state, action) => {
@@ -103,6 +126,7 @@ const articlesSlice = createSlice({
         state.error = true;
       })
       .addCase(fetchSinglePage.pending, (state) => {
+        state.articleSinglePage = [];
         state.loading = true;
       })
       .addCase(fetchSinglePage.fulfilled, (state, action) => {

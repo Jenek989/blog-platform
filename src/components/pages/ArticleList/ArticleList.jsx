@@ -10,12 +10,13 @@ import classes from './ArticleList.module.scss';
 
 const ArticleList = () => {
   const { articleList, articlesCount, currentPage } = useSelector((state) => state.articles);
+  const { email: auth } = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchArticleList({ limit: 5, offset: (currentPage - 1) * 5 }));
-  }, [currentPage]);
+  }, [currentPage, auth]);
 
   if (!articleList.length)
     return (
@@ -24,17 +25,15 @@ const ArticleList = () => {
       </li>
     );
 
-  const articlesList = articleList.map((article) => {
-    return (
-      <li key={article.slug} className={classes.article}>
-        <ArticlePreview article={article} />
-      </li>
-    );
-  });
-
   return (
     <ul className={classes.articleWrapper}>
-      {articlesList}
+      {articleList.map((article) => {
+        return (
+          <li key={article.slug} className={classes.article}>
+            <ArticlePreview article={article} />
+          </li>
+        );
+      })}
       <div className={classes.articlePaginationWrapper}>
         <Pagination
           className={classes.articlePagination}
@@ -42,6 +41,7 @@ const ArticleList = () => {
           total={articlesCount}
           pageSize={5}
           showSizeChanger={false}
+          size="small"
           onChange={(page) => {
             dispatch(setCurrentPage(page));
           }}

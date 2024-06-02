@@ -36,6 +36,12 @@
   overflow: hidden;
 }
 
+.articleTitleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .articleDescription {
   font-size: 12px;
 }

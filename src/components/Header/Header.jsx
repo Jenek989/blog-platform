@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Button, Image, Typography } from 'antd';
 
 import { fetchGetUser, logOutProfile } from '../../store/usersSlice';
@@ -13,6 +13,7 @@ const { Title } = Typography;
 const Header = () => {
   const { email: auth, username, image } = useSelector((state) => state.users);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (getCookie('token')) dispatch(fetchGetUser());
@@ -20,6 +21,7 @@ const Header = () => {
 
   const logOut = () => {
     dispatch(logOutProfile());
+    navigate('/');
   };
 
   const signInOut = (
@@ -62,11 +64,9 @@ const Header = () => {
           className={classes.headerImage}
         ></Image>
       </div>
-      <Link to="/">
-        <Button size="large" type="link" className={classes.headerBtn} onClick={logOut}>
-          Log Out
-        </Button>
-      </Link>
+      <Button size="large" type="link" className={classes.headerBtn} onClick={logOut}>
+        Log Out
+      </Button>
     </div>
   );
 

@@ -8,7 +8,7 @@ import classes from './NewArticle.module.scss';
 const { Text } = Typography;
 
 const NewArticle = ({ title, singleArticle, onSubmit }) => {
-  const [tagList, setTagList] = useState([]);
+  const [tagList, setTagList] = useState(singleArticle?.tagList || []);
   const [tagValue, setTagValue] = useState('');
 
   const {
