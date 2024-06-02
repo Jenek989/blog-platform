@@ -65,7 +65,6 @@ const SignUp = () => {
           <Form.Item
             name="email"
             label="Email address"
-            // rules={[{ required: true, message: 'Please input your email!' }]}
             validateStatus={errors.email ? 'error' : ''}
             help={errors.email && errors.email.message}
             className={classes.signUpFormItem}

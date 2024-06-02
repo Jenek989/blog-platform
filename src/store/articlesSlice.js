@@ -147,6 +147,5 @@ const articlesSlice = createSlice({
   },
 });
 
-// eslint-disable-next-line no-empty-pattern
 export const { setCurrentPage } = articlesSlice.actions;
 export default articlesSlice;

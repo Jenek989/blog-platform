@@ -107,6 +107,5 @@ const usersSlice = createSlice({
   },
 });
 
-// eslint-disable-next-line no-empty-pattern
 export const { logOutProfile } = usersSlice.actions;
 export default usersSlice;

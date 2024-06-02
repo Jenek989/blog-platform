@@ -42,7 +42,6 @@ const SignIn = () => {
           <Form.Item
             name="email"
             label="Email address"
-            // rules={[{ required: true, message: 'Please input your email!' }]}
             validateStatus={errors.email ? 'error' : ''}
             help={errors.email && errors.email.message}
             className={classes.signInFormItem}
@@ -65,7 +64,6 @@ const SignIn = () => {
             label="Password"
             validateStatus={errors.password ? 'error' : ''}
             help={errors.password && errors.password.message}
-            // rules={[{ required: true, message: 'Please input your password!' }]}
           >
             <Controller
               name="password"
