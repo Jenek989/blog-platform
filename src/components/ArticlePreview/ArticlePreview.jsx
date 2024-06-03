@@ -72,7 +72,7 @@ const ArticlePreview = ({ article, singlePage }) => {
         <div className={classes.articleMain}>
           <div className={classes.articleTitleWrapper}>
             <Link className={classes.articleLink} to={`/articles/${article.slug}`}>
-              <Text className={classes.articleTitle}>{getShortedOverview(article.title, 67)}</Text>
+              <Text className={classes.articleTitle}>{getShortedOverview(article.title, 54)}</Text>
             </Link>
             <Statistic
               valueStyle={{ fontSize: '16px' }}
