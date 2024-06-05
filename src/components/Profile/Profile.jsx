@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { Button, Form, Input, Typography } from 'antd';
@@ -8,14 +8,22 @@ import { fetchUpdateUser } from '../../store/usersSlice';
 import classes from './Profile.module.scss';
 
 const { Text } = Typography;
+
 const Profile = () => {
+  const { username, email, image } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      username: username,
+      email: email,
+      avatar: image,
+    },
+  });
 
   const onSubmit = ({ email, username, bio = '', avatar: image = '' }) => {
     dispatch(fetchUpdateUser({ email, username, bio, image }));

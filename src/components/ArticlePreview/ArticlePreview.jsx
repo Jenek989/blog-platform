@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Image, Popconfirm, Statistic, Tag, Typography } from 'antd';
 import { HeartFilled, HeartOutlined } from '@ant-design/icons';
-import { format } from 'date-fns';
 
 import { fetchDeleteArticle, fetchFavoriteArticle, fetchUnfavoriteArticle } from '../../store/articlesSlice';
+import formattedDate from '../utils/formatArticle';
+import getShortedOverview from '../utils/shortedOverview';
 
 import classes from './ArticlePreview.module.scss';
 
-const { Text, Paragraph } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
 const ArticlePreview = ({ article, singlePage }) => {
   const [isFavorite, setisFavorite] = useState(article.favorited);
@@ -25,24 +26,6 @@ const ArticlePreview = ({ article, singlePage }) => {
     setisFavorite(article.favorited);
   }, [article.favorited]);
 
-  const getShortedOverview = (text = '', maxLength) => {
-    if (singlePage) return text;
-    if (text.length <= maxLength) return text;
-
-    const lastSpaceIndex = text.lastIndexOf(' ', maxLength);
-    if (lastSpaceIndex !== -1) {
-      return text.slice(0, lastSpaceIndex) + '...';
-    }
-    return text.slice(0, maxLength) + '...';
-  };
-  const formatDate = (isoDate) => {
-    if (!isoDate) return '';
-    const date = new Date(isoDate);
-    return format(date, 'MMMM d, yyyy');
-  };
-  const isoDate = article.createdAt;
-  const formattedDate = formatDate(isoDate);
-
   const onClickDeleteArticle = () => {
     dispatch(fetchDeleteArticle(article.slug));
     navigate('/');
@@ -50,20 +33,22 @@ const ArticlePreview = ({ article, singlePage }) => {
 
   const onClickFavorite = () => {
     if (!username) return;
-    if (!isFavorite) {
-      dispatch(fetchFavoriteArticle(article.slug)).then((res) => {
-        if (res?.payload?.article?.favorited) {
-          setisFavorite(res.payload.article.favorited);
-          setFavoritesCount(res.payload.article.favoritesCount);
-        }
-      });
-    } else
-      dispatch(fetchUnfavoriteArticle(article.slug)).then((res) => {
-        if (res?.payload?.article?.favorited) {
-          setisFavorite(res.payload.article.favorited);
-          setFavoritesCount(res.payload.article.favoritesCount);
-        }
-      });
+    dispatch(fetchFavoriteArticle(article.slug)).then((res) => {
+      if (res.meta.requestStatus == 'fulfilled') {
+        setisFavorite(true);
+        setFavoritesCount(favoritesCount + 1);
+      }
+    });
+  };
+
+  const onClickUnfavorite = () => {
+    if (!username) return;
+    dispatch(fetchUnfavoriteArticle(article.slug)).then((res) => {
+      if (res.meta.requestStatus == 'fulfilled') {
+        setisFavorite(false);
+        setFavoritesCount(favoritesCount - 1);
+      }
+    });
   };
 
   return (
@@ -72,7 +57,13 @@ const ArticlePreview = ({ article, singlePage }) => {
         <div className={classes.articleMain}>
           <div className={classes.articleTitleWrapper}>
             <Link className={classes.articleLink} to={`/articles/${article.slug}`}>
-              <Text className={classes.articleTitle}>{getShortedOverview(article.title, 54)}</Text>
+              <Title
+                level={2}
+                className={classes.articleTitle}
+                style={{ fontSize: '20px', fontWeight: 400, color: '#1890FF' }}
+              >
+                {getShortedOverview(article.title, 54)}
+              </Title>
             </Link>
             <Statistic
               valueStyle={{ fontSize: '16px' }}
@@ -81,27 +72,27 @@ const ArticlePreview = ({ article, singlePage }) => {
                 !isFavorite ? (
                   <HeartOutlined onClick={onClickFavorite} />
                 ) : (
-                  <HeartFilled style={{ color: 'red' }} onClick={onClickFavorite} />
+                  <HeartFilled style={{ color: 'red' }} onClick={onClickUnfavorite} />
                 )
               }
             />
           </div>
-          <div className={classes.articleTagWrapper}>
+          <ul className={classes.articleTagWrapper}>
             {tagList.map((tag, i) => (
-              <Tag key={i} className={classes.articleTag}>
-                {tag}
-              </Tag>
+              <li key={i}>
+                <Tag className={classes.articleTag}>{tag}</Tag>
+              </li>
             ))}
-          </div>
+          </ul>
           <Paragraph className={!singlePage ? classes.articleDescription : classes.articleSingleDescription}>
-            {getShortedOverview(article.description, 225)}
+            {getShortedOverview(article.description, 223, singlePage)}
           </Paragraph>
         </div>
         <div className={classes.articleWrapperInfo}>
           <div className={classes.articleWrapperPersonal}>
             <div className={classes.articlePersonal}>
               <Text className={classes.articleName}>{article.author.username}</Text>
-              <Text className={classes.articleDate}>{formattedDate}</Text>
+              <Text className={classes.articleDate}>{formattedDate(article.createdAt)}</Text>
             </div>
             <Image
               width={40}
@@ -125,11 +116,14 @@ const ArticlePreview = ({ article, singlePage }) => {
                 </Button>
               </Popconfirm>
 
-              <Link to={`/articles/${article.slug}/edit`}>
-                <Button className={classes.newArticlebuttonTag} type="primary" ghost>
-                  Edit
-                </Button>
-              </Link>
+              <Button
+                className={classes.newArticlebuttonTag}
+                type="primary"
+                ghost
+                onClick={() => navigate(`/articles/${article.slug}/edit`)}
+              >
+                Edit
+              </Button>
             </div>
           ) : null}
         </div>

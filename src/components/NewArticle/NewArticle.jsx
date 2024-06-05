@@ -30,6 +30,12 @@ const NewArticle = ({ title, singleArticle, onSubmit }) => {
     setTagValue('');
   };
 
+  const setTagById = (value, i) => {
+    let newTagList = [...tagList];
+    newTagList[i] = value;
+    setTagList(newTagList);
+  };
+
   const onClickDeleteTag = (id) => {
     setTagList(tagList.filter((_, index) => index !== id));
   };
@@ -101,7 +107,11 @@ const NewArticle = ({ title, singleArticle, onSubmit }) => {
           {tagList.map((tag, id) => {
             return (
               <div className={classes.newArticletag} key={id}>
-                <Input className={classes.newArticleinputTag} value={tag} />
+                <Input
+                  className={classes.newArticleinputTag}
+                  value={tag}
+                  onChange={(e) => setTagById(e.target.value, id)}
+                />
                 <Button
                   className={classes.newArticlebuttonTag}
                   type="primary"

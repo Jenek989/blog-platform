@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Image, Typography } from 'antd';
 
 import { fetchGetUser, logOutProfile } from '../../store/usersSlice';
-import { getCookie } from '../cookie';
+import { getCookie } from '../utils/cookie';
 
 import classes from './Header.module.scss';
 
@@ -26,16 +26,12 @@ const Header = () => {
 
   const signInOut = (
     <div className={classes.headerButtons}>
-      <NavLink to="/sign-in">
-        <Button size="large" type="link" className={classes.headerBtn}>
-          Sign In
-        </Button>
-      </NavLink>
-      <Link to="/sign-up">
-        <Button size="large" type="link" className={classes.headerBtn}>
-          Sign Up
-        </Button>
-      </Link>
+      <Button size="large" type="link" className={classes.headerBtn} onClick={() => navigate('/sign-in')}>
+        Sign In
+      </Button>
+      <Button size="large" type="link" className={classes.headerBtn} onClick={() => navigate('/sign-up')}>
+        Sign Up
+      </Button>
     </div>
   );
 
@@ -44,17 +40,13 @@ const Header = () => {
 
   const profile = (
     <div className={classes.headerProfileWrapper}>
-      <NavLink to="/new-article">
-        <Button size="large" type="link" className={classes.headerBtnCreate}>
-          Create article
-        </Button>
-      </NavLink>
+      <Button size="large" type="link" className={classes.headerBtnCreate} onClick={() => navigate('/new-article')}>
+        Create article
+      </Button>
       <div className={classes.headerProfileInfo}>
-        <Link to="/profile">
-          <Button size="large" type="link" className={classes.headerBtnProfile}>
-            {username}
-          </Button>
-        </Link>
+        <Button size="large" type="link" className={classes.headerBtnProfile} onClick={() => navigate('/profile')}>
+          {username}
+        </Button>
         <Image
           width={40}
           height={40}
@@ -74,7 +66,7 @@ const Header = () => {
     <header className={classes.header}>
       <div className={classes.headerWrapper}>
         <Link className={classes.headerlink} to="/">
-          <Title level={5} className={classes.headerTitle}>
+          <Title className={classes.headerTitle} style={{ fontSize: '18px' }}>
             Realworld Blog
           </Title>
         </Link>

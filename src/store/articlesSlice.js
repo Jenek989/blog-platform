@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, isRejectedWithValue } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import { getCookie } from '../components/cookie';
+import { getCookie } from '../components/utils/cookie';
 
 export const fetchArticleList = createAsyncThunk('articles/fetchArticleList', async ({ limit, offset }) => {
   try {
