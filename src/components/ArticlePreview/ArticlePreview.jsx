@@ -60,7 +60,7 @@ const ArticlePreview = ({ article, singlePage }) => {
               <Title
                 level={2}
                 className={classes.articleTitle}
-                style={{ fontSize: '20px', fontWeight: 400, color: '#1890FF' }}
+                style={{ fontSize: '20px', fontWeight: 400, color: '#1890FF', margin: 0 }}
               >
                 {getShortedOverview(article.title, 54)}
               </Title>
