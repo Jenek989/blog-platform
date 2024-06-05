@@ -77,7 +77,7 @@ const ArticlePreview = ({ article, singlePage }) => {
               }
             />
           </div>
-          <ul className={classes.articleTagWrapper}>
+          <ul className={classes.articleTagWrapper} style={{ marginTop: 0 }}>
             {tagList.map((tag, i) => (
               <li key={i}>
                 <Tag className={classes.articleTag}>{tag}</Tag>
